@@ -1,133 +1,125 @@
 # PawConnect Frontend
 
-Application mobile React Native (Expo) de PawConnect pour signaler des animaux en détresse et suivre leur prise en charge.
+Mobile application built with React Native (Expo) for PawConnect — enabling citizens to report animals in distress while allowing agents to manage cases efficiently.
 
-## Fonctionnalités
+The objective was to deliver a complete frontend + backend MVP in 2 weeks.
 
-### Authentification et session
+The mobile app allows:
+	•	Citizens to report lost or injured animals
+	•	Agents to manage and update report status
+	•	Users to receive real-time notifications
+	•	Location-based interaction through maps and GPS
 
-- Inscription et connexion utilisateur (`signup` / `login`).
-- Gestion du token JWT pour sécuriser les appels backend.
-- Comportement de navigation adapté selon l'état de session.
+## Features
 
-### Signalement côté citoyen
+### Authentication & Session Management
 
-- Création d'un signalement avec le type d'animal, un titre, une description et un état.
-- Ajout de la position GPS via `expo-location`.
-- Ajout d'une photo via signature backend puis upload Cloudinary.
+  •	User signup & login
+	•	JWT token storage and secured backend requests
+	•	Conditional navigation based on authentication state
 
-### Suivi et prise en charge
+### Animal Reporting (Citizen Role)
 
-- Consultation des signalements liés à l'utilisateur connecté.
-- Vue agent pour consulter les signalements et mettre à jour leur statut.
-- Mise à jour de l'historique de prise en charge côté backend.
+  •	Create a report (animal type, title, description, status)
+	•	Capture GPS location via Expo Location
+	•	Upload photo using backend signature + Cloudinary
+	•	View personal reports
+
+### Agent Management
+
+  • View assigned reports
+	•	Update report status
+	•	Track case progression
 
 ### Notifications
 
-- Récupération des notifications utilisateur.
-- Marquage d'une notification comme lue.
-- Marquage global de toutes les notifications comme lues.
+  •	Retrieve user notifications
+	•	Mark a notification as read
+	•	Mark all notifications as read
 
-### Carte et distance
+### Maps & Distance Calculation
 
-- Affichage cartographique des signalements.
-- Calcul et affichage de la distance entre utilisateur et signalement.
-- Accès rapide aux détails depuis les écrans de suivi.
+  •	Display reports on interactive map
+	•	Calculate and show distance between user and report
+	•	Quick access to report details
 
-## Stack
+## Architecture
 
-- Expo / React Native
-- React Navigation (stack + tabs)
-- Redux Toolkit + React Redux
-- NativeWind (Tailwind)
-- Expo Camera / Expo Location
-- React Native Maps
+```text
+frontend/
+  api/               # Backend API calls
+  components/        # Domain-based UI components
+  screens/           # Application screens
+  navigation/        # Stacks and tabs
+  reducers/          # Redux slices
+  hooks/             # Custom business/UI hooks
+  helpers/           # Error handling & utilities
+  constants/         # Design system (colors, spacing)
+  assets/            # Images, icons, fonts
+```
+
+
+## Technical Stack
+
+  • React Native
+	•	Expo
+	•	React Navigation (Stack + Tabs)
+	•	Redux Toolkit
+	•	React Redux
+	•	NativeWind (Tailwind CSS)
+	•	Expo Location
+	•	Expo Camera
+	•	React Native Maps
+
+## Backend integration
+
+The frontend consumes a modular Node.js REST API:
+
+Main endpoints used:
+	•	POST /auth/signup
+	•	POST /auth/login
+	•	POST /animals
+	•	GET /animals/me
+	•	PATCH /animals/:id/photo
+	•	GET /notifications
+	•	PATCH /notifications/:id/read
+	•	PATCH /notifications/read-all
+	•	GET /upload/signature
+
+Backend built with:
+	•	Node.js
+	•	Express
+	•	MongoDB
+	•	JWT Authentication
+
+## Error Handling Strategy
+
+Network and backend errors are normalized through:
+	•	helpers/appError.js
+	•	helpers/readJsonSafely.js
+
+This ensures consistent error messaging and improved user experience.
 
 ## Installation
 
 ```bash
 cd frontend
 npm install
-```
-
-## Variables d’environnement
-
-Créer le fichier local depuis l’exemple:
-
-```bash
-cp .env.example .env.local
-```
-
-Puis choisir une URL backend selon ton contexte:
-
-```env
-EXPO_PUBLIC_BACKEND=http://192.168.x.x:3000
-# EXPO_PUBLIC_BACKEND=https://paw-connect-backend.vercel.app
-```
-
-Notes:
-
-- `http://192.168.x.x:3000`:
-  backend local, pratique pour développer backend et frontend en même temps.
-- `https://paw-connect-backend.vercel.app`:
-  backend déployé, utile pour tester sans backend local ou partager des tests.
-- Les fichiers `.env*` locaux sont ignorés par Git.
-
-## Lancement
-
-```bash
 npm start
 ```
 
-Scripts disponibles:
+Available scripts : 
 
 ```bash
 npm run android
 npm run ios
 ```
 
-## Architecture
 
-```text
-frontend/
-  api/               # appels backend (auth, animals, notifications, upload)
-  assets/            # images, icônes, fonts
-  components/        # composants UI par domaine
-  constants/         # couleurs, typo, spacing
-  helpers/           # gestion d'erreurs app et utilitaires
-  hooks/             # hooks métier/UI
-  navigation/        # root, stacks, tabs
-  reducers/          # slices Redux
-  screens/           # écrans applicatifs
-```
+## Author
 
-## Contrat backend consommé par le frontend
+PawConnect was developed in 2 weeks as part of the La Capsule bootcamp.
 
-- `POST /auth/signup`
-- `POST /auth/login`
-- `POST /animals`
-- `GET /animals/me`
-- `PATCH /animals/:id/photo`
-- `GET /notifications`
-- `PATCH /notifications/:id/read`
-- `PATCH /notifications/read-all`
-- `GET /upload/signature`
+The goal was to design and deliver a complete frontend and backend MVP within a strict two-week deadline.
 
-## Gestion des erreurs
-
-Le frontend normalise les erreurs réseau/backend avec:
-
-- `helpers/appError.js`
-- `helpers/readJsonSafely.js`
-
-Ce mécanisme permet d'unifier les messages utilisateurs et les codes backend.
-
-## Backend
-
-- Dépôt backend GitHub: https://github.com/Yipno/PawConnect-backend
-- Backend déployé (Vercel): https://paw-connect-backend.vercel.app
-- Documentation backend locale: `../backend/README.md`
-
-## Tests
-
-Aucun script `test` n'est défini actuellement.
+Built by a team of 5 using GitHub and agile practices (feature branching, collaborative development), the project reflects real-world mobile application delivery under time constraints.
